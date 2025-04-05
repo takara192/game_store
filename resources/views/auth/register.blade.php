@@ -12,7 +12,7 @@
 
     </div>
     <div class="flex-1 h-full bg-[#212429] px-3 ">
-        <form method="POST" class="h-full">
+        <form method="POST" class="h-full" action="{{ route('register.store') }}">
             @csrf
             <div class="h-full w-[500px] flex flex-col ms-15 justify-center text-white space-y-5">
                 <div class="font-extralight text-4xl">
@@ -20,23 +20,42 @@
                 </div>
                 <div class="mt-2 mr-50">
                     <x-label-input class="mt-3" :id="'name'" name="name" label="Username" input-class="rounded-sm"
+                                   value="{{ old('name') }}"
                                    label-color="#b8b6b4"/>
+                    @error('name')
+                    <x-error-text message="{{ $message }}"/>
+                    @enderror
                     <x-label-input class="mt-3" :id="'email'" input-type="email" name="email" label="Email"
+                                   value="{{ old('email') }}"
                                    input-class="rounded-sm"/>
+                    @error('email')
+                    <x-error-text message="{{ $message }}"/>
+                    @enderror
                     <x-label-input class="mt-3" :id="'password'" input-type="password" name="password" label="Password"
+                                   value="{{ old('password') }}"
                                    input-class="rounded-sm"/>
-                    <x-label-input class="mt-3" :id="'confirm_password'" input-type="password" name="confirm_password"
+                    @error('password')
+                    <x-error-text message="{{ $message }}"/>
+                    @enderror
+                    <x-label-input class="mt-3" :id="'password_confirmation'" input-type="password"
+                                   name="password_confirmation" value="{{ old('password_confirmation') }}"
                                    label="Confirm Password" input-class="rounded-sm"/>
+                    @error('password_confirmation')
+                    <x-error-text message="{{ $message }}"/>
+                    @enderror
                 </div>
                 <div>
-                    <input type="checkbox" name="agree_to_policy"/>
+                    <input type="checkbox" name="term" id="term"/>
                     <span> I am 13 years of age or older and agree to the terms of the Game Store Subscriber Agreement.</span>
+                    @error('term')
+                    <x-error-text message="{{ $message }}"/>
+                    @enderror
                 </div>
                 <div class="mt-3">
-                    <a href="{{ route('register') }}"
-                       class="rounded-xs bg-gradient-to-r from-[#06BFFF] to-[#2D73FF] px-10 py-2 mt-3 cursor-pointer text-[#c3e1f8]">
+                    <button
+                        class="rounded-xs bg-gradient-to-r from-[#06BFFF] to-[#2D73FF] px-10 py-2 mt-3 cursor-pointer text-[#c3e1f8]">
                         Continue
-                    </a>
+                    </button>
                 </div>
             </div>
         </form>

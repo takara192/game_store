@@ -17,6 +17,7 @@ return new class extends Migration
             $table->text('short_description');
             $table->longText('long_description');
             $table->unsignedInteger('price');
+            $table->unsignedInteger('view');
             $table->string('cover_image');
             $table->json('description_images')->nullable();
             $table->timestamps();

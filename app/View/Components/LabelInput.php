@@ -20,6 +20,7 @@ class LabelInput extends Component
         public ?String $id = null,
         public ?String $name = null,
         public ?String $inputClass = null,
+        public ?String $value = null,
     )
     {
         //

@@ -12,10 +12,11 @@ class Game extends Model
     use HasFactory;
 
     protected $fillable = [
-      'title',
-      'short_description',
-      'long_description',
-      'price',
+        'title',
+        'short_description',
+        'long_description',
+        'price',
+        'view',
     ];
 
     public function users(): BelongsToMany
