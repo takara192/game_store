@@ -5,6 +5,9 @@
     x-data="{
     active: 'newest',
     vertical: false,
+    newestGame: {{ json_encode($newestGames) }},
+    topSellerGame: {{ json_encode($topSellerGame) }},
+    freeGame: {{ json_encode($freeGame) }},
   }"
     class="flex flex-col"
     x-bind:class="{
@@ -83,65 +86,121 @@
     <div
         class="rounded-b-lg rounded-tr-lg border border-zinc-200/75 bg-white p-5 dark:border-zinc-700/75 dark:bg-[#29475f] rtl:rounded-tl-lg rtl:rounded-tr-none"
     >
-        <!-- Home Tab -->
+        <!-- Newest Tab -->
         <div
-            x-show="active === 'home'"
-            id="home-tab-pane"
+            x-show="active === 'newest'"
+            id="newest-tab-pane"
             tab="tabpanel"
-            aria-labelledby="home-tab"
+            aria-labelledby="newest-tab"
             tabindex="0"
         >
-            <h4 class="mb-2 text-lg font-bold">Welcome to your dashboard</h4>
-            <p class="text-sm leading-relaxed text-zinc-700 dark:text-zinc-400">
-                The Home tab serves as the primary landing page, providing an overview
-                and quick access to the most essential features and information. It
-                typically includes a welcome message, a summary of recent activity, and
-                shortcuts to frequently used functions. Designed for convenience, the
-                Home tab ensures users can easily find and navigate to all pages.
-            </p>
-        </div>
-        <!-- END Home Tab -->
+            <template x-for="game in newestGame">
+                <div @click="window.location.href = '/game/' + game['id'] "
+                     class="h-[75px] w-full flex justify-start items-center mb-2 bg-[#202d39] cursor-pointer">
+                    <div class="h-full w-[185px] overflow-hidden">
+                        <img class="w-full h-full object-cover" x-bind:src="game['cover_image']">
+                    </div>
+                    <div class="h-full flex flex-1 flex-col ms-3 justify-between py-2 text-ellipsis">
+                        <p x-text="game['title']" class="text-[#c7d5e0] text-base"></p>
+                        <p x-text="game['category']" class="text-[#5e6d7c] text-sm"></p>
+                    </div>
 
-        <!-- Profile Tab -->
+                    <div class="h-full flex flex-col me-3 justify-between items-end py-2 text-ellipsis">
+                        <p x-text="to_money(game['price'])" class="text-[#BEEE11] text-base"></p>
+                        <p x-text="format_date(game['created_at'])" class="text-[#4c6c8c] text-xs"></p>
+                    </div>
+                </div>
+            </template>
+            <div class="w-full flex justify-end items-center pt-2">
+                <p class="text-[#b7c3cf] text-sm">
+                    See more:
+                </p>
+                <a href="#">
+                    <div class="ms-1 py-1 px-2 border border-white text-sm">
+                        Newest
+                    </div>
+                </a>
+            </div>
+        </div>
+        <!-- END Newest Tab -->
+
+        <!-- Best Seller Tab -->
         <div
             x-cloak
-            x-show="active === 'profile'"
-            id="profile-tab-pane"
+            x-show="active === 'top_seller'"
+            id="top_seller-tab-pane"
             tab="tabpanel"
-            aria-labelledby="profile-tab"
+            aria-labelledby="top_seller-tab"
             tabindex="0"
         >
-            <h4 class="mb-2 text-lg font-bold">Manage your account</h4>
-            <p class="text-sm leading-relaxed text-zinc-700 dark:text-zinc-400">
-                The Profile tab allows users to view and manage their personal
-                information and account settings. Here, users can update their contact
-                details, change their password, and upload a profile picture. This tab
-                ensures that users have complete control over their personal data and
-                can customize their experience according to their preferences.
-            </p>
-        </div>
-        <!-- END Profile Tab -->
+            <template x-for="game in topSellerGame">
+                <div @click="window.location.href = '/game/' + game['id'] "
+                     class="h-[75px] w-full flex justify-start items-center mb-2 bg-[#202d39] cursor-pointer">
+                    <div class="h-full w-[185px] overflow-hidden">
+                        <img class="w-full h-full object-cover" x-bind:src="game['cover_image']">
+                    </div>
+                    <div class="h-full flex flex-1 flex-col ms-3 justify-between py-2 text-ellipsis">
+                        <p x-text="game['title']" class="text-[#c7d5e0] text-base"></p>
+                        <p x-text="game['category']" class="text-[#5e6d7c] text-sm"></p>
+                    </div>
 
-        <!-- Settings Tab -->
+                    <div class="h-full flex flex-col me-3 justify-between items-end py-2 text-ellipsis">
+                        <p x-text="to_money(game['price'])" class="text-[#BEEE11] text-base"></p>
+                        <p x-text="format_date(game['created_at'])" class="text-[#4c6c8c] text-xs"></p>
+                    </div>
+                </div>
+            </template>
+            <div class="w-full flex justify-end items-center  pt-2">
+                <p class="text-[#b7c3cf] text-sm">
+                    See more:
+                </p>
+                <a href="#">
+                    <div class="ms-1 py-1 px-2 border border-white text-sm">
+                        Top Seller
+                    </div>
+                </a>
+            </div>
+        </div>
+        <!-- END Best seller Tab -->
+
+        <!-- Free Tab -->
         <div
             x-cloak
-            x-show="active === 'settings'"
-            id="settings-tab-pane"
+            x-show="active === 'free'"
+            id="free-tab-pane"
             tab="tabpanel"
-            aria-labelledby="settings-tab"
+            aria-labelledby="free-tab"
             tabindex="0"
         >
-            <h4 class="mb-2 text-lg font-bold">Manage your application</h4>
-            <p class="text-sm leading-relaxed text-zinc-700 dark:text-zinc-400">
-                The Settings tab provides access to the application's configuration
-                options, enabling users to customize their experience. It includes
-                various controls and preferences such as notification settings, privacy
-                options, and application themes. This tab empowers users to tailor the
-                application to their specific needs and enhance their overall user
-                experience.
-            </p>
+            <template x-for="game in freeGame">
+                <div @click="window.location.href = '/game/' + game['id'] "
+                     class="h-[75px] w-full flex justify-start items-center mb-2 bg-[#202d39] cursor-pointer">
+                    <div class="h-full w-[185px] overflow-hidden">
+                        <img class="w-full h-full object-cover" x-bind:src="game['cover_image']">
+                    </div>
+                    <div class="h-full flex flex-1 flex-col ms-3 justify-between py-2 text-ellipsis">
+                        <p x-text="game['title']" class="text-[#c7d5e0] text-base"></p>
+                        <p x-text="game['category']" class="text-[#5e6d7c] text-sm"></p>
+                    </div>
+
+                    <div class="h-full flex flex-col me-3 justify-between items-end py-2 text-ellipsis">
+                        <p x-text="to_money(game['price'])" class="text-[#BEEE11] text-base"></p>
+                        <p x-text="format_date(game['created_at'])" class="text-[#4c6c8c] text-xs"></p>
+                    </div>
+                </div>
+            </template>
+            <div class="w-full flex justify-end items-center pt-2">
+                <p class="text-[#b7c3cf] text-sm">
+                    See more:
+                </p>
+                <a href="#">
+                    <div class="ms-1 py-1 px-2 border border-white text-sm">
+                        Free
+                    </div>
+                </a>
+            </div>
         </div>
-        <!-- END Settings Tab -->
+        <!-- END Free Tab -->
     </div>
     <!-- END Tab Content -->
 </div>
